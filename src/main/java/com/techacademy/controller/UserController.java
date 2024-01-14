@@ -50,9 +50,9 @@ public class UserController {
         if (id != null) {
             // 一覧画面から遷移した場合
             model.addAttribute("user", service.getUser(id));
-        } else {
+        // } else {
             // postUser()から遷移した場合
-            model.addAttribute("user", new User());
+            // model.addAttribute("user", new User());
         }
         return "user/update";
     }
@@ -61,7 +61,8 @@ public class UserController {
     public String postUser(@Validated User user, BindingResult res, @PathVariable("id") Integer id) {
         if (res.hasErrors()) {
             // エラーがある場合は更新画面に戻る
-            return "redirect:/user/update/" + id + "/";
+            //return "redirect:/user/update/" + id + "/";
+            return getUser(null, null);
         }
         service.saveUser(user);
         return "redirect:/user/list";
