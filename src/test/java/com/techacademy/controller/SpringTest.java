@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.structurizr.configuration.User;
 import com.techacademy.service.UserService;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,6 +36,12 @@ class SpringTest {
     
     @WebMvcTest(UserController.class)
     public class UserControllerTests {
+        public class User {
+            private Long id;
+            public Long getId() {
+                return id;
+            }
+        }
 
         @Autowired
         private MockMvc mockMvc;
@@ -52,6 +57,7 @@ class SpringTest {
         @MockBean
         private UserService userService;
 
+        @SuppressWarnings({ "null", "unlikely-arg-type" })
         @Test
         public void testGetList() throws Exception {
 
@@ -77,8 +83,12 @@ class SpringTest {
             assert retrievedUserList != null;
             assert retrievedUserList.size() == 3;
 
-            // userlistから1件ずつ取り出し、idとnameを検証する
-            for (int i = 0; i < 3; i++) {
+         // userlistから1件ずつ取り出し、idとnameを検証する
+            for (User actualUser : retrievedUserList) {
+                userList.stream()
+                        .filter(u -> u.getId().equals(actualUser.getId()))
+                        .findFirst()
+                        .orElse(null);
 
 
             }
